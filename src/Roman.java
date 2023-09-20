@@ -1,5 +1,5 @@
 public enum Roman {
-    I(1), V(5), X(10), L(50);
+    C(100), L(50), X(10), V(5), I(1);
     private int value;
     Roman(int value){
         this.value = value;

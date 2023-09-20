@@ -28,7 +28,7 @@ public class Main {
             throw new Exception("Empty expression or math sign");
         }
 
-        System.out.println(a+" "+b);
+        //System.out.println(a+" "+b);
 
         aDecimal = romanToDecimal(a);
         bDecimal = romanToDecimal(b);
@@ -68,11 +68,36 @@ public class Main {
 
         StringBuilder roman = new StringBuilder();
 
-        for (Roman numeral : Roman.values()) {
+        Roman prevNumeral = Roman.values()[0];
+        Roman nextNumeral = Roman.values()[1];
+
+        for (int i = 0; i < Roman.values().length; i++) {
+            Roman numeral = Roman.values()[i];
             while (num >= numeral.getValue()) {
-                roman.append(numeral);
-                num -= numeral.getValue();
+                if (num == numeral.getValue()){
+                    roman.append(numeral);
+                    num -= numeral.getValue();
+                } else
+                if (num >= prevNumeral.getValue() - nextNumeral.getValue() && (Roman.values().length-i)%2==0) {
+                    roman.append(nextNumeral);
+                    roman.append(prevNumeral);
+                    num += nextNumeral.getValue();
+                    num -= prevNumeral.getValue();
+                } else
+                if (num >= prevNumeral.getValue() - numeral.getValue() && (Roman.values().length-i)%2==1) {
+                    roman.append(numeral);
+                    roman.append(prevNumeral);
+                    num += numeral.getValue();
+                    num -= prevNumeral.getValue();
+                } else {
+                    roman.append(numeral);
+                    num -= numeral.getValue();
+                }
             }
+            prevNumeral = numeral;
+            if(i+2 < Roman.values().length){
+                nextNumeral = Roman.values()[i+2];
+            } else nextNumeral = Roman.values()[Roman.values().length-1];
         }
 
         return roman.toString();
