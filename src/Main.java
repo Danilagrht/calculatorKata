@@ -28,18 +28,33 @@ public class Main {
             throw new Exception("Empty expression or math sign");
         }
 
-        try{
+        if(isDecimal(a) && isDecimal(b)){
+            aDecimal = Integer.parseInt(a);
+            bDecimal = Integer.parseInt(b);
+            System.out.println(calculation(aDecimal, bDecimal, sign));
+        } else if (isRoman(a) && isRoman(b)) {
             aDecimal = romanToDecimal(a);
             bDecimal = romanToDecimal(b);
             System.out.println(decimalToRoman(calculation(aDecimal, bDecimal, sign)));
-        } catch(Exception e){
-            try{
-                aDecimal = Integer.parseInt(a);
-                bDecimal = Integer.parseInt(b);
-                System.out.println(calculation(aDecimal, bDecimal, sign));
-            } catch (Exception exception){
-                throw new Exception("Incorrect number");
-            }
+        } else
+            throw new Exception("Incorrect number");
+    }
+
+    private static boolean isDecimal(String s) {
+        try {
+            Integer.parseInt(s);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    private static boolean isRoman(String s) {
+        try {
+            romanToDecimal(s);
+            return true;
+        } catch (Exception e) {
+            return false;
         }
     }
 
