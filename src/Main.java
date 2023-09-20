@@ -28,12 +28,19 @@ public class Main {
             throw new Exception("Empty expression or math sign");
         }
 
-        //System.out.println(a+" "+b);
-
-        aDecimal = romanToDecimal(a);
-        bDecimal = romanToDecimal(b);
-
-        System.out.println(decimalToRoman(calculation(aDecimal, bDecimal, sign)));
+        try{
+            aDecimal = romanToDecimal(a);
+            bDecimal = romanToDecimal(b);
+            System.out.println(decimalToRoman(calculation(aDecimal, bDecimal, sign)));
+        } catch(Exception e){
+            try{
+                aDecimal = Integer.parseInt(a);
+                bDecimal = Integer.parseInt(b);
+                System.out.println(calculation(aDecimal, bDecimal, sign));
+            } catch (Exception exception){
+                throw new Exception("Incorrect number");
+            }
+        }
     }
 
     public static int romanToDecimal(String romanNum) throws Exception {
@@ -63,7 +70,7 @@ public class Main {
 
     public static String decimalToRoman(int num) throws Exception {
         if (num < 1 || num > 100) {
-            throw new Exception("Number must be in range from 1 to 100");
+            throw new Exception("Roman number must be in range from 1 to 100");
         }
 
         StringBuilder roman = new StringBuilder();
@@ -104,12 +111,15 @@ public class Main {
     }
 
     public static int calculation(int a, int b, char sign) throws Exception {
-        return switch (sign) {
-            case '+' -> a + b;
-            case '-' -> a - b;
-            case '*' -> a * b;
-            case '/' -> a / b;
-            default -> throw new Exception("Unexpected sign or calculation error");
-        };
+        if(a>0 && a<=10 && b>0 && b<=10){
+            return switch (sign) {
+                case '+' -> a + b;
+                case '-' -> a - b;
+                case '*' -> a * b;
+                case '/' -> a / b;
+                default -> throw new Exception("Unexpected sign or calculation error");
+            };
+        } else
+            throw new Exception("Number must be in range from 1 to 10");
     }
 }
