@@ -1,25 +1,29 @@
-import java.text.ParseException;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
+
+        String expression = scanner.nextLine();
+
+        System.out.println(calc(expression));
+    }
+
+    public static String calc(String input) throws Exception {
         String a = null;
         String b = null;
         int aDecimal;
         int bDecimal;
         char sign = 0;
-        int expressionResult;
+        String expressionResult;
 
-        String expression = scanner.nextLine();
+        input = input.replaceAll("\\s+","");
 
-        expression = expression.replaceAll("\\s+","");
-
-        for (int i = 0; i < expression.length(); i++) {
-            if(expression.charAt(i) == '-' || expression.charAt(i) == '+' || expression.charAt(i) == '*' || expression.charAt(i) == '/'){
-                sign = expression.charAt(i);
-                a = expression.substring(0, i);
-                b = expression.substring(i+1);
+        for (int i = 0; i < input.length(); i++) {
+            if(input.charAt(i) == '-' || input.charAt(i) == '+' || input.charAt(i) == '*' || input.charAt(i) == '/'){
+                sign = input.charAt(i);
+                a = input.substring(0, i);
+                b = input.substring(i+1);
                 break;
             }
         }
@@ -31,13 +35,15 @@ public class Main {
         if(isDecimal(a) && isDecimal(b)){
             aDecimal = Integer.parseInt(a);
             bDecimal = Integer.parseInt(b);
-            System.out.println(calculation(aDecimal, bDecimal, sign));
+            expressionResult = String.valueOf(calculation(aDecimal, bDecimal, sign));
         } else if (isRoman(a) && isRoman(b)) {
             aDecimal = romanToDecimal(a);
             bDecimal = romanToDecimal(b);
-            System.out.println(decimalToRoman(calculation(aDecimal, bDecimal, sign)));
+            expressionResult = decimalToRoman(calculation(aDecimal, bDecimal, sign));
         } else
             throw new Exception("Incorrect number");
+
+        return expressionResult;
     }
 
     private static boolean isDecimal(String s) {
